@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экранная клавиатура</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #keyboard {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            max-width: 700px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .key {
+            padding: 10px;
+            border: 1px solid #888;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="inputField">
+    <div id="keyboard"></div>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const inputField = document.getElementById('inputField');
+    const keyboard = document.getElementById('keyboard');
+    let capsLockEnabled = false;
+
+    const keys = [
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+        'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+        'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+        'z', 'x', 'c', 'v', 'b', 'n', 'm',
+        'Caps Lock', 'Enter'
+    ];
+
+    keys.forEach(keyValue => {
+        const key = document.createElement('div');
+        key.classList.add('key');
+        key.textContent = keyValue;
+        keyboard.appendChild(key);
+    });
+
+    keyboard.addEventListener('click', function(event) {
+    const keyValue = event.target.textContent;
+    if (keyValue === 'Caps Lock') {
+        capsLockEnabled = !capsLockEnabled;
+        if (capsLockEnabled) {
+            event.target.style.backgroundColor = '#a0a0a0';
+        } else {
+            event.target.style.backgroundColor = '';
+        }
+    } else if (keyValue === 'Enter') {
+        inputField.value = '';
+    } else {
+        if (capsLockEnabled) {
+            inputField.value += keyValue.toUpperCase();
+        } else {
+            inputField.value += keyValue.toLowerCase();
+        }
+    }
+    });
+});
+
+    </script>
+</body>
+</html>

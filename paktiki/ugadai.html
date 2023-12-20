@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+
+
+    <h1>Игра "Угадай ячейку"</h1>
+    <p>Компьютер случайным образом запоминает 10 ячеек из этой таблицы. Игроку нужно кликать на клетки, пока он не найдет все загаданные компьютером клетки.</p>
+    <p id="timer">оставшееся время: 20 сек</p>
+    <table id="gameTable"></table>
+
+    <script> 
+    document.addEventListener("DOMContentLoaded", function() {
+    const table = document.getElementById('gameTable');
+    let targetCells = [];
+    let remainingTargets = 10;
+    let timeLeft = 20;
+    let timer;
+
+    function createTable() {
+        table.innerHTML = ''; 
+        for (let i = 0; i < 10; i++) {
+            const row = table.insertRow();
+            for (let j = 0; j < 10; j++) {
+                const cell = row.insertCell();
+                cell.addEventListener("click", function() {
+                    if (targetCells.includes(i * 10 + j)) {
+                        cell.style.backgroundColor = "green";
+                        remainingTargets--;
+                        if (remainingTargets === 0) {
+                            clearInterval(timer);
+                            alert("вы нашли все ячейки");
+                            startGame(); 
+                        }
+                    } else {
+                        cell.style.backgroundColor = "red";
+                    }
+                });
+            }
+        }
+    }
+
+    function generateTargetCells() {
+        targetCells = [];
+        while (targetCells.length < 10) {
+            const cell = Math.floor(Math.random() * 100);
+            if (!targetCells.includes(cell)) {
+                targetCells.push(cell);
+            }
+        }
+    }
+
+    function startGame() {
+        createTable();
+        generateTargetCells();
+        remainingTargets = 10;
+        timeLeft = 20;
+        timer = setInterval(function() {
+            document.getElementById('timer').innerText = `оставшееся время: ${timeLeft} сек`;
+            timeLeft--;
+            if (timeLeft < 0 || remainingTargets === 0) {
+                clearInterval(timer);
+                if (remainingTargets !== 0) {
+                    alert("вы проиграли");
+                    startGame(); 
+                }
+            }
+        }, 1000);
+    }
+
+    startGame();
+});
+    </script>
+</body>
+</html>

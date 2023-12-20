@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Гороскоп</title>
+</head>
+<body>
+
+<input type="text" id="birthdate" placeholder="Введите дату рождения (DD.MM)">
+<br>
+<input type="radio" name="day" value="today" checked> Сегодня
+<input type="radio" name="day" value="tomorrow"> Завтра
+<input type="radio" name="day" value="dayAfterTomorrow"> Послезавтра
+<button onclick="showHoroscope()">Показать гороскоп</button>
+
+<script>
+const horoscopes = {
+  'Рак': {
+    today: 'Сегодня вы будете находить радость в общении с близкими.',
+    tomorrow: 'Завтра пришло время для новых эмоциональных впечатлений.',
+    dayAfterTomorrow: 'Послезавтра уделите внимание своему внутреннему миру.',
+  },
+  'Телец': {
+    today: 'Сегодня вы будете наслаждаться материальным комфортом.',
+    tomorrow: 'Завтра возможен успешный день в деловой сфере.',
+    dayAfterTomorrow: 'Послезавтра найдите время для заботы о себе.',
+  },
+  'Дева': {
+    today: 'Сегодня акцентируйте внимание на деталях и порядке.',
+    tomorrow: 'Завтра уделите внимание своему здоровью и благополучию.',
+    dayAfterTomorrow: 'Послезавтра день подходит для планирования будущих задач.',
+  },
+};
+
+function showHoroscope() {
+  const birthdate = document.getElementById('birthdate').value;
+  const selectedDay = document.querySelector('input[name="day"]:checked').value;
+
+  const zodiacSign = determineZodiacSign(birthdate);
+
+  const horoscope = horoscopes[zodiacSign][selectedDay];
+  alert(horoscope);
+}
+
+function determineZodiacSign(birthdate) {
+  const dateArray = birthdate.split('.');
+  const day = parseInt(dateArray[0]);
+  const month = parseInt(dateArray[1]);
+
+  if ((month === 6 && day >= 22) || (month === 7 && day <= 22)) {
+    return 'Рак';
+  } else if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) {
+    return 'Телец';
+  } else if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) {
+    return 'Дева';
+  }
+}
+</script>
+
+</body>
+</html>

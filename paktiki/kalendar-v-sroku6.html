@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Линейный календарь</title>
+  <style>
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    li {
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .highlight {
+            background-color: rgb(219, 121, 118);
+        }
+
+    #navigation {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #prevMonth, #nextMonth {
+      margin: 0 10px;
+      cursor: pointer;
+      color: palevioletred;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+    <h1 id="monthYear"></h1>
+    <div id="navigation">
+        <a href="#" id="prevMonth"><< Предыдущий месяц</a>
+        <a href="#" id="nextMonth">Следующий месяц >></a>
+    </div>
+    <ul id="calendar"></ul>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const calendar = document.getElementById('calendar');
+    const monthYear = document.getElementById('monthYear');
+    const prevMonthLink = document.getElementById('prevMonth');
+    const nextMonthLink = document.getElementById('nextMonth');
+    const currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    function renderCalendar() {
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+        
+  
+        const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        monthYear.textContent = monthNames[currentMonth] + ' ' + currentYear;
+        
+        calendar.innerHTML = '';
+
+        for (let i = 1; i <= lastDay.getDate(); i++) {
+            const day = document.createElement('li');
+            day.textContent = i;
+            if (i === currentDate.getDate() && currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear()) {
+                day.classList.add('highlight');
+            }
+            calendar.appendChild(day);
+        }
+    }
+
+    renderCalendar();
+
+    prevMonthLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (currentMonth === 0) {
+            currentMonth = 11;
+            currentYear--;
+        } else {
+            currentMonth--;
+        }
+        renderCalendar();
+    });
+
+    nextMonthLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (currentMonth === 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else {
+            currentMonth++;
+        }
+        renderCalendar();
+    });
+});
+  </script>
+
+</body>
+</html>

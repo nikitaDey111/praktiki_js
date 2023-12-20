@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Исторические события</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    #parent {
+      margin: 0 auto;
+      width: 600px;
+    }
+
+    #input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    #table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #table td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="parent">
+    <input id="input" placeholder="Введите год и нажмите Enter">
+    <table id="table"></table>
+  </div>
+
+  <script>
+    const historicalEvents = [
+      { date: '2000-01-01', title: 'Начало нового тысячелетия', description: 'Начало XXI века' },
+      { date: '2001-09-11', title: 'Теракты 11 сентября', description: 'Атаки на Всемирный торговый центр и Пентагон' },
+      { date: '2002-01-01', title: 'Введение евро', description: 'Банкноты и монеты евро стали законным платежным средством в 12 государствах-членах Европейского союза' },
+      // Добавьте события для других годов
+    ];
+
+    const input = document.getElementById('input');
+    const table = document.getElementById('table');
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const year = input.value;
+        displayEvents(year);
+      }
+    });
+
+    function displayEvents(year) {
+      const events = filterEventsByYear(year);
+      renderTable(events);
+    }
+
+    function filterEventsByYear(year) {
+      return historicalEvents.filter(event => event.date.startsWith(year));
+    }
+
+    function renderTable(events) {
+      table.innerHTML = '';
+
+      if (events.length === 0) {
+        table.innerHTML = '<tr><td colspan="3">нет событий для выбранного года</td></tr>';
+        return;
+      }
+
+      events.forEach(event => {
+        const row = table.insertRow();
+        const dateCell = row.insertCell(0);
+        const titleCell = row.insertCell(1);
+        const descriptionCell = row.insertCell(2);
+
+        dateCell.textContent = event.date;
+        titleCell.textContent = event.title;
+        descriptionCell.textContent = event.description;
+      });
+    }
+  </script>
+</body>
+</html>
